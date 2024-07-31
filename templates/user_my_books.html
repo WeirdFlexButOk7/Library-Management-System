@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Books</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-brand">
+            {% if 's' == name[-1] %}
+                {{ name }}' Dashboard
+            {% else %}
+                {{ name }}'s Dashboard
+            {% endif %}
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/{{name}}/my_books">My Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/{{name}}/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/{{name}}/stats">Stats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-9 offset-md-1">
+                <form action="/user/{{name}}/my_books" method="GET" class="mb-4">
+                    <div class="input-group mb-2">
+                        <input type="text" name="search_text" class="form-control" placeholder="Search for an EBook..." value="{{ txt }}">
+                        <div class="input-group-append">
+                            <button type="submit" class="form-control btn btn-primary">Search</button>
+                        </div>    
+                    </div>
+                    <div class="input-group mb-3 ml-1">
+                        <label for="filter_type" class="mr-5">Search based on:</label>
+                        <label for="title" class="mr-2">Title</label>
+                        {% if search_type == "title" or search_type is none %}
+                            <input type="radio" name="search_type" class="mr-4" id="title" value="title" checked>
+                        {% else %}
+                            <input type="radio" name="search_type" class="mr-4" id="title" value="title">
+                        {% endif %}
+                        
+                        <label for="author" class="mr-2">Author</label>
+                        {% if search_type == "author" %}
+                            <input type="radio" name="search_type" class="mr-4" id="author" value="author" checked>
+                        {% else %}
+                            <input type="radio" name="search_type" class="mr-4" id="author" value="author">
+                        {% endif %}
+                        
+                        <label for="section" class="mr-2">Section</label>           
+                        {% if search_type == "section" %} 
+                            <input type="radio" name="search_type" class="mr-4" id="section" value="section"  checked>
+                        {% else %}
+                            <input type="radio" name="search_type" class="mr-4" id="section" value="section">
+                        {% endif %}
+                    </div>              
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 offset-md-1 mt-2">
+                <h2>Completed books</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 offset-md-1">
+                {% if read|length == 0 %}
+                    <div class="col-md-10 mb-4">
+                        <span class="lead">No books found</span>
+                    </div>
+                {% else %}
+                {% for book in read %}
+                <div class="col-md-12 mb-4">
+                    <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text">Section: {{ book.section }}</p>
+                                <p class="card-text">Author: {{ book.author }}</p>
+                                <a href="{{book.content}}" class="btn btn-success mr-2">View</a>
+                                <a href="/user/{{ name }}/book/{{ book.title }}/return" class="btn btn-danger mr-2">Return</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 offset-md-1">
+                <h2>Current books</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 offset-md-1">
+                {% if reading|length == 0 and yet_to|length == 0 %}
+                    <div class="col-md-10 mb-4">
+                        <span class="lead">No books found</span>
+                    </div>
+                {% else %}
+                {% for book in reading %}
+                    <div class="col-md-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text">Section: {{ book.section }}</p>
+                                <p class="card-text">Author: {{ book.author }}</p>
+                                <a href="{{book.content}}" class="btn btn-info mr-2">Continue reading</a>
+                                <a href="/user/{{ name }}/book/{{ book.title }}/finish" class="btn btn-success mr-2">Finish</a>
+                                <a href="/user/{{ name }}/book/{{ book.title }}/return" class="btn btn-danger mr-2">Return</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for book in yet_to %}
+                    <div class="col-md-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text">Section: {{ book.section }}</p>
+                                <p class="card-text">Author: {{ book.author }}</p>
+                                <a href="/user/{{ name }}/book/{{ book.title }}/start" class="btn btn-success mr-2">Start reading</a>
+                                <a href="/user/{{ name }}/book/{{ book.title }}/return" class="btn btn-danger mr-2">Return</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

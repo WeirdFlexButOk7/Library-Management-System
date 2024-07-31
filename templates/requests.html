@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-brand">
+            {% if 's' == name[-1] %}
+                {{ name }}' Dashboard
+            {% else %}
+                {{ name }}'s Dashboard
+            {% endif %}
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/sections">Sections</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/stats">Stats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/requests">Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% if requests|length == 0 %}
+            <p class="offset-md-1 mt-5 lead">There are currently no requests</p>
+        {% else %}
+            <h2 class="text-center mb-4">Requests</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2">Request ID</th>
+                            <th>User</th>
+                            <th>Book Name</th>
+                            <th>Request Date</th>
+                            <th class="col-md-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in requests %}
+                            <tr>
+                                <td class="col-md-2">{{ request.ID }}</td>
+                                <td>{{ request.username }}</td>
+                                <td>{{ request.title }}</td>
+                                <td>{{ request.date }}</td>
+                                <td>
+                                    <form action="/lib/{{ name }}/requests/{{ request.ID }}/accept" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-success">Accept</button>
+                                    </form>
+                                    <form action="/lib/{{ name }}/requests/{{ request.ID }}/reject" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+      
+</body>
+</html>

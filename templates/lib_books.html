@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-brand">
+            {% if 's' == name[-1] %}
+                {{ name }}' Dashboard
+            {% else %}
+                {{ name }}'s Dashboard
+            {% endif %}
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/sections">Sections</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/stats">Stats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/requests">Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-9 offset-md-1">
+                <form action="/lib/{{name}}/books" method="GET" class="mb-4">
+                    <div class="input-group mb-2">
+                        <input type="text" name="search_text" class="form-control" placeholder="Search here..." value="{{ txt }}">
+                        <div class="input-group-append">
+                            <button type="submit" class="form-control btn btn-primary mr-2 rounded-right">Search</button>
+                        </div>
+                        <div class="input-group-append">
+                            <a href="/lib/{{name}}/issue_book" class="btn btn-primary rounded">Add New Book</a>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3 ml-1">
+                        <label for="filter_type" class="mr-5">Search based on:</label>
+                        <label for="title" class="mr-2">Title</label>
+                        {% if search_type == "title" or search_type is none %}
+                            <input type="radio" name="search_type" class="mr-4" id="title" value="title" checked>
+                        {% else %}
+                            <input type="radio" name="search_type" class="mr-4" id="title" value="title">
+                        {% endif %}
+                        
+                        <label for="author" class="mr-2">Author</label>
+                        {% if search_type == "author" %}
+                            <input type="radio" name="search_type" class="mr-4" id="author" value="author" checked>
+                        {% else %}
+                            <input type="radio" name="search_type" class="mr-4" id="author" value="author">
+                        {% endif %}
+                        
+                        <label for="section" class="mr-2">Section</label>           
+                        {% if search_type == "section" %}
+                            <input type="radio" name="search_type" class="mr-4" id="section" value="section" checked>
+                        {% else %}
+                            <input type="radio" name="search_type" class="mr-4" id="section" value="section">
+                        {% endif %}
+                    </div>
+                </form>
+                
+                {% if books|length == 0 %}
+                    <h2 class="offset-md-1">No Books exist</h2>
+                {% else %}
+                    {% for book in books %}
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h3><a href="{{book.content}}" class="card-title text-dark">{{ book.title }}</a></h3>
+                                <a href="{{ url_for('lib_edit_book', username=name, title=book.title) }}?author={{ book.author }}&content={{ book.content }}&section={{ book.section }}&ID={{book.ID}}" class="text-info ml-auto mr-3">Edit Book</a>
+                                <a href="{{ url_for('lib_book_stats',username=name, title=book.title) }}?search_text=" class="text-info mr-3">View Status</a>
+                                <a href="{{ url_for('book_delete',username=name, title=book.title) }}" class="text-danger">Remove Book</a>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Section: {{ book.section }}</p>
+                                <p class="card-text">Author: {{ book.author }}</p>
+                                <p class="card-text">Issue Date: {{ book.issue_date }}</p>
+                                <p class="card-text">Issued By: {{ book.issued_by }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>  
+      
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% if ID %}
+            Edit book
+        {% else %}
+            Add new book
+        {% endif %}
+    </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-brand">
+            {% if 's' == name[-1] %}
+                {{ name }}' Dashboard
+            {% else %}
+                {{ name }}'s Dashboard
+            {% endif %}
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/sections">Sections</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/stats">Stats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/requests">Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% if ID %}
+        <h2 class="text-center">Edit Book</h2>
+            <form action="{{url_for('lib_edit_book',username=name,title=title)}}?ID={{ID}}" method="POST">
+        {% else %}
+        <h2 class="text-center">Add Book</h2>
+            <form action="/lib/{{ name }}/issue_book" method="POST">
+        {% endif %}
+            <div class="form-group">
+                <label for="title" >Title:</label>
+                {% if ID %}
+                    <input type="text" class="form-control" id="title" name="title" value="{{title}}" required>
+                {% else %}
+                    <input type="text" class="form-control" id="title" name="title" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="author">Author:</label> 
+                {% if ID %}
+                    <input type="text" class="form-control" id="author" name="author" value ="{{author}}" required>
+                {% else %}
+                    <input type="text" class="form-control" id="author" name="author" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="content">Content (Link to Online PDF of Book):</label>
+                {% if ID %}
+                    <input type="url" class="form-control" id="content" name="content" value="{{content}}" required>    
+                {% else %}
+                    <input type="url" class="form-control" id="content" name="content" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="section">Section:</label>
+                <select class="form-control" id="section" name="section" required>
+                    {% for section in sections %}
+                        {% if section.title == _section %}
+                            <option value="{{ section.title }}" selected>{{ section.title }}</option>
+                        {% else %}
+                            <option value="{{ section.title }}">{{ section.title }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            {% if ID %}
+            <button type="submit" class="btn btn-primary d-block mx-auto">Edit Book</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary d-block mx-auto">Add Book</button>
+            {% endif %}
+        </form>
+    </div>    
+      
+</body>
+</html>

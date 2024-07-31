@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sections</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-brand">
+            {% if 's' == name[-1] %}
+                {{ name }}' Dashboard
+            {% else %}
+                {{ name }}'s Dashboard
+            {% endif %}
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/sections">Sections</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/stats">Stats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/requests">Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-9 offset-md-1">
+                <form action="/lib/{{name}}/sections" method="GET" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" name="search_text" class="form-control rounded-left" id="search_bar" placeholder="Search here..." value="{{ txt }}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary rounded-right mr-2">Search</button>
+                            <a href="/lib/{{name}}/add_section" class="btn btn-primary rounded">Add New Section</a>
+                        </div>
+                    </div>
+                </form>
+                
+                {% if sections|length == 0 %}
+                    <p class="mt-5 lead">No sections match the search text</p>
+                {% else %}
+                    {% for section in sections %}
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h3><a href="/lib/{{name}}/section/{{section.title}}" class="card-title text-dark">{{ section.title }}</a></h3>
+                                <a href="{{url_for('lib_action_section',username=name)}}?ID={{section.ID}}&section={{section.title}}&desc={{section.description}}" class="text-info ml-auto mr-3">Edit Section</a>
+                                <a href="{{url_for('section_delete',username=name,sec_name=section.title)}}" class="text-danger">Delete Section</a>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Description: {{ section.description }}</p>
+                                <p class="card-text">Date created: {{ section.date }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+      
+</body>
+</html>

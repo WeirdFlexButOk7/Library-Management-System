@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static',filename='styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="blur-bg"></div>
+    <div class="container content">
+        <h1 class="title mb-4">Welcome To Library Management System</h1>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary btn-lg rounded mr-4" onclick="window.location.href = '/lib/login';">Librarian</button>
+            <button type="button" class="btn btn-primary btn-lg rounded" onclick="window.location.href = '/user/login';">User</button>
+        </div>
+    </div>
+</body>
+</html>

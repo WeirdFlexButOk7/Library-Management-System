@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% if ID is none %}
+            Add new section
+        {% else %}
+            Edit section
+        {% endif %}
+    </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-brand">
+            {% if 's' == name[-1] %}
+                {{ name }}' Dashboard
+            {% else %}
+                {{ name }}'s Dashboard
+            {% endif %}
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/sections">Sections</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/stats">Stats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lib/{{name}}/requests">Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-2">
+                <a href="{{url_for('lib_show_all_section',username=name)}}" class="btn btn-secondary mr-0">Go Back</a>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        {% if ID is none %}
+                            <h4 class="card-title text-center">Add New Section</h4>
+                        {% else %}
+                            <h4 class="card-title text-center">Edit Section</h4>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <form action="{{url_for('lib_action_section',username=name)}}?ID={{ID}}" method="post">
+                            <div class="form-group">
+                                <label for="section_name">Section Name:</label>
+                                {% if ID is none %}
+                                    <input type="text" class="form-control" id="section_name" name="section_name" required>
+                                {% else %}
+                                    <input type="text" class="form-control" id="section_name" name="section_name" value="{{section}}"required>
+                                {% endif %}
+                                
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                {% if ID is none %}
+                                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                                {% else %}
+                                    <textarea class="form-control" id="description" name="description" rows="3" required>{{description}}</textarea>
+                                {% endif %}
+                            </div>
+                            {% if ID is none %}
+                                <button type="submit" class="btn btn-primary d-block mx-auto">Add Section</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary d-block mx-auto">Edit Section</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
