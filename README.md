@@ -1,7 +1,7 @@
 # Library Management System
-
-A web-based **Library Management System** built using **Python**, **Flask**, **SQLite3**, **HTML**, and **CSS**.  
-This application allows a librarian to manage books and basic library operations through a clean and simple web interface.
+A web-based Library Management System built with Python, Flask, SQLite3, HTML and CSS.
+Allows a librarian (admin) to manage books and basic library operations.
+Allows a user to request, read and return any book available to them.
 
 ---
 
@@ -10,9 +10,7 @@ This application allows a librarian to manage books and basic library operations
 - User and Admin Auth
 - Add, view, search, update, and delete books
 - Issue and return books
-- Storage using SQLite
-- Simple UI with HTML and CSS
-- Backend Architecture using Flask
+- Storage using SQLite, UI with HTML and CSS, Backend using Flask
 
 ---
 
@@ -25,7 +23,7 @@ git clone https://github.com/WeirdFlexButOk7/Library-Management-System.git
 cd Library-Management-System
 ```
 
-### 2. Setup Virtual Environment and Dependencies
+### 2. Setup Environment and Dependencies
 
 ```sh
 sh local_setup.sh
