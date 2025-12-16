@@ -1,11 +1,53 @@
-# LMS_Project
-Library Management System using Python, Flask, sqlite3, HTML, CSS
+# Library Management System
 
-Librarian Credentials:
+A web-based **Library Management System** built using **Python**, **Flask**, **SQLite3**, **HTML**, and **CSS**.  
+This application allows a librarian to manage books and basic library operations through a clean and simple web interface.
 
+---
+
+## Features
+
+- User and Admin Auth
+- Add, view, search, update, and delete books
+- Issue and return books
+- Storage using SQLite
+- Simple UI with HTML and CSS
+- Backend Architecture using Flask
+
+---
+
+## Getting Started
+
+### 1. Clone the Repository
+
+```sh
+git clone https://github.com/WeirdFlexButOk7/Library-Management-System.git
+cd Library-Management-System
+```
+
+### 2. Setup Virtual Environment and Dependencies
+
+```sh
+sh local_setup.sh
+```
+
+### 3. Run the Application
+
+```
+sh local_run.sh
+```
+
+Once the server starts, you can view the site at
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## Librarian Credentials
+
+```
 Username: Janani
 Password: 123
-
-run "sh local_setup.sh" on command line to setup the virtual environment and install the python modules.
-
-run "sh local_run.sh" to run the app.
+```
