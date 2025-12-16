@@ -1,6 +1,9 @@
 # Library Management System
-A web-based Library Management System built with Python, Flask, SQLite3, HTML and CSS.
+
+A web-based Library Management System built with Python, Flask, SQLite3, HTML and CSS. 
+    
 Allows a librarian (admin) to manage books and basic library operations.
+
 Allows a user to request, read and return any book available to them.
 
 ---
